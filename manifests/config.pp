@@ -74,7 +74,7 @@ class zookeeper::config(
     recurse => true,
   }
 
-  file { "${cfg_dir}/myid":
+  file { "${datastore}/myid":
     ensure  => file,
     content => template('zookeeper/conf/myid.erb'),
     owner   => $user,
