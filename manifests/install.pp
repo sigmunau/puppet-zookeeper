@@ -16,6 +16,7 @@ class zookeeper::install(
   $cleanup_sh        = '/usr/lib/zookeeper/bin/zkCleanup.sh',
   $datastore         = '/var/lib/zookeeper',
   $user              = 'zookeeper',
+  $service_pkg       = ['zookeeperd'],
 ) {
 # a debian (or other binary package) must be available, see https://github.com/deric/zookeeper-deb-packaging
 # for Debian packaging
@@ -23,7 +24,7 @@ class zookeeper::install(
     ensure => $ensure
   }
 
-  package { ['zookeeperd']: #init.d scripts for zookeeper
+  package { $service_pkg: #init.d scripts for zookeeper
     ensure  => $ensure,
     require => Package['zookeeper']
   }

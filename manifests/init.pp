@@ -32,6 +32,8 @@ class zookeeper(
   $servers     = [''],
   $ensure      = present,
   $snap_count  = 10000,
+  $service_pkg = ['zookeeperd'],
+  $service     = 'zookeeper',
   # since zookeeper 3.4, for earlier version cron task might be used
   $snap_retain_count       = 3,
   # interval in hours, purging enabled when >= 1
@@ -49,6 +51,7 @@ class zookeeper(
     datastore         => $datastore,
     user              => $user,
     cleanup_sh        => $cleanup_sh,
+    service_pkg       => $service_pkg,
   }->
   class { 'zookeeper::config':
     id                      => $id,
@@ -73,7 +76,9 @@ class zookeeper(
     max_allowed_connections => $max_allowed_connections,
   }->
   class { 'zookeeper::service':
-    cfg_dir => $cfg_dir,
+    cfg_dir     => $cfg_dir,
+    service     => $service,
+    service_pkg => $service_pkg,
   }
   ->
   anchor { 'zookeeper::end': }
